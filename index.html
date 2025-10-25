@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio của Nguyễn Tấn Phi - Data Analyst & Software Developer">
+    <meta name="author" content="Nguyễn Tấn Phi">
+    <title>Nguyễn Tấn Phi - Data Analyst Portfolio</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================== GLOBAL & RESET ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --neon-green: #00ff41;
+            --dark-green: #008f11;
+            --matrix-green: #0f0;
+            --cyber-blue: #00d9ff;
+            --deep-black: #000000;
+            --dark-gray: #0a0a0a;
+            --lighter-gray: #1a1a1a;
+            --text-green: #00ff41;
+            --glow-green: rgba(0, 255, 65, 0.5);
+        }
+        
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--deep-black);
+            color: var(--text-green);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* ==================== MATRIX RAIN BACKGROUND ==================== */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* ==================== GLITCH EFFECT ==================== */
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                            -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+            14% {
+                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.05em -0.025em 0 rgba(0, 255, 0, 0.75),
+                            -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+            15% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                            0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                            -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+                            0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+                            -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+            50% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                            0.05em 0 0 rgba(0, 255, 0, 0.75),
+                            0 -0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+            99% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75),
+                            0.05em 0 0 rgba(0, 255, 0, 0.75),
+                            0 -0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+            100% {
+                text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75),
+                            -0.025em -0.025em 0 rgba(0, 255, 0, 0.75),
+                            -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+        }
+        
+        .glitch {
+            animation: glitch 1s linear infinite;
+        }
+        
+        /* ==================== NEON GLOW ==================== */
+        .neon-text {
+            color: var(--neon-green);
+            text-shadow: 
+                0 0 5px var(--neon-green),
+                0 0 10px var(--neon-green),
+                0 0 20px var(--neon-green),
+                0 0 40px var(--dark-green);
+        }
+        
+        .neon-border {
+            border: 2px solid var(--neon-green);
+            box-shadow: 
+                0 0 5px var(--neon-green),
+                0 0 10px var(--neon-green),
+                inset 0 0 5px var(--neon-green);
+        }
+        
+        /* ==================== SCANLINE EFFECT ==================== */
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(transparent, var(--neon-green), transparent);
+            animation: scanline 8s linear infinite;
+            z-index: 999;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        /* ==================== NAVBAR ==================== */
+        .navbar {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--neon-green);
+            box-shadow: 0 0 20px var(--glow-green);
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neon-green) !important;
+            text-shadow: 0 0 10px var(--neon-green);
+            letter-spacing: 2px;
+        }
+        
+        .nav-link {
+            color: var(--neon-green) !important;
+            font-family: 'Fira Code', monospace;
+            margin: 0 0.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:before {
+            content: '> ';
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-link:hover:before {
+            opacity: 1;
+        }
+        
+        .nav-link:hover {
+            color: var(--cyber-blue) !important;
+            text-shadow: 0 0 10px var(--cyber-blue);
+        }
+        
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Avatar Styling */
+        .avatar-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .cyber-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid var(--neon-green);
+            box-shadow: 
+                0 0 20px var(--glow-green),
+                0 0 40px var(--glow-green),
+                inset 0 0 20px rgba(0, 255, 65, 0.2);
+            object-fit: cover;
+            animation: avatarGlow 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .cyber-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 30px var(--glow-green),
+                0 0 60px var(--glow-green),
+                inset 0 0 30px rgba(0, 255, 65, 0.3);
+        }
+        
+        @keyframes avatarGlow {
+            0%, 100% {
+                box-shadow: 
+                    0 0 20px var(--glow-green),
+                    0 0 40px var(--glow-green),
+                    inset 0 0 20px rgba(0, 255, 65, 0.2);
+            }
+            50% {
+                box-shadow: 
+                    0 0 30px var(--glow-green),
+                    0 0 60px var(--glow-green),
+                    0 0 80px var(--dark-green),
+                    inset 0 0 30px rgba(0, 255, 65, 0.3);
+            }
+        }
+        
+        .terminal-window {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--neon-green);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 
+                0 0 20px var(--glow-green),
+                inset 0 0 20px rgba(0, 255, 65, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--dark-green);
+        }
+        
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .terminal-button.red { background: #ff5f56; }
+        .terminal-button.yellow { background: #ffbd2e; }
+        .terminal-button.green { background: #27c93f; }
+        
+        .terminal-content {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .terminal-line {
+            margin: 0.5rem 0;
+        }
+        
+        .terminal-prompt {
+            color: var(--cyber-blue);
+            margin-right: 0.5rem;
+        }
+        
+        .typing-animation {
+            overflow: hidden;
+            border-right: 2px solid var(--neon-green);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--neon-green); }
+        }
+        
+        /* ==================== SECTION STYLING ==================== */
+        section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--glow-green);
+            position: relative;
+        }
+        
+        .section-title:before {
+            content: '<';
+            color: var(--cyber-blue);
+            margin-right: 1rem;
+        }
+        
+        .section-title:after {
+            content: '/>';
+            color: var(--cyber-blue);
+            margin-left: 1rem;
+        }
+        
+        .section-divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            margin: 0 auto 3rem;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        /* ==================== CYBER CARDS ==================== */
+        .cyber-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--dark-green);
+            border-radius: 0;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .cyber-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .cyber-card:hover:before {
+            transform: translateX(100%);
+        }
+        
+        .cyber-card:hover {
+            border-color: var(--neon-green);
+            box-shadow: 
+                0 0 20px var(--glow-green),
+                inset 0 0 20px rgba(0, 255, 65, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .cyber-card:after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-green), var(--cyber-blue), var(--neon-green));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .cyber-card:hover:after {
+            opacity: 0.5;
+        }
+        
+        /* ==================== SKILL BARS ==================== */
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: var(--neon-green);
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .skill-bar-container {
+            width: 100%;
+            height: 8px;
+            background: var(--dark-gray);
+            border: 1px solid var(--dark-green);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--dark-green), var(--neon-green));
+            position: relative;
+            transition: width 2s ease;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .skill-bar:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* ==================== PROJECT CARDS ==================== */
+        .project-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--dark-green);
+            border-radius: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            height: 100%;
+        }
+        
+        .project-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .project-card:hover:before {
+            left: 100%;
+        }
+        
+        .project-card:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px var(--glow-green);
+            transform: scale(1.02);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            filter: grayscale(50%);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover .project-image {
+            filter: grayscale(0%);
+        }
+        
+        .project-body {
+            padding: 1.5rem;
+        }
+        
+        .project-title {
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-green);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 5px var(--neon-green);
+        }
+        
+        .tech-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            margin: 0.2rem;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--dark-green);
+            color: var(--neon-green);
+            font-size: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            background: rgba(0, 255, 65, 0.2);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 10px var(--glow-green);
+        }
+        
+        /* ==================== STATS SECTION ==================== */
+        .stat-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--dark-green);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-box:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px var(--glow-green);
+        }
+        
+        .stat-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--glow-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--dark-green);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        /* ==================== CONTACT SECTION ==================== */
+        .contact-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--dark-green);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px var(--glow-green);
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--neon-green);
+            margin-right: 1rem;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: rgba(0, 0, 0, 0.95);
+            border-top: 2px solid var(--neon-green);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 0 20px var(--glow-green);
+        }
+        
+        .social-link {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            margin: 0 0.5rem;
+            border: 2px solid var(--dark-green);
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .social-link:hover {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: 0 0 20px var(--glow-green);
+            transform: translateY(-5px);
+        }
+        
+        /* ==================== SCROLL TO TOP BUTTON ==================== */
+        #scrollTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--neon-green);
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        #scrollTop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #scrollTop:hover {
+            box-shadow: 0 0 20px var(--glow-green);
+            transform: translateY(-5px);
+        }
+        
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .terminal-window {
+                padding: 1rem;
+            }
+            
+            .terminal-content {
+                font-size: 0.9rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .cyber-avatar {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .avatar-container {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+    
+    <!-- Scanline Effect -->
+    <div class="scanline"></div>
+    
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        
+        <!-- ==================== NAVBAR ==================== -->
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+            <div class="container">
+                <a class="navbar-brand glitch" href="#home">NTP_DEV</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#home">home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">about</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#skills">skills</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#projects">projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- ==================== HERO SECTION ==================== -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="terminal-window fade-in-up">
+                    <div class="terminal-header">
+                        <div class="terminal-button red"></div>
+                        <div class="terminal-button yellow"></div>
+                        <div class="terminal-button green"></div>
+                    </div>
+                    
+                    <!-- Avatar -->
+                    <div class="avatar-container">
+                        <img id="avatar-img" 
+                             src="/img/avatar.jpg" 
+                             alt="Nguyễn Tấn Phi" 
+                             class="cyber-avatar">
+                    </div>
+                    
+                    <div class="terminal-content">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">user@portfolio:~$</span>
+                            <span class="neon-text">whoami</span>
+                        </div>
+                        <div class="terminal-line" style="margin-left: 1rem;">
+                            <span class="typing-animation neon-text">Nguyễn Tấn Phi</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">user@portfolio:~$</span>
+                            <span class="neon-text">cat role.txt</span>
+                        </div>
+                        <div class="terminal-line" style="margin-left: 1rem;">
+                            <span style="color: var(--cyber-blue);">▸ Data Analyst</span>
+                        </div>
+                        <div class="terminal-line" style="margin-left: 1rem;">
+                            <span style="color: var(--cyber-blue);">▸ Software Developer</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">user@portfolio:~$</span>
+                            <span class="neon-text">ls -la education/</span>
+                        </div>
+                        <div class="terminal-line" style="margin-left: 1rem;">
+                            <span>📚 Đại học Giao thông Vận tải TP.HCM</span>
+                        </div>
+                        <div class="terminal-line" style="margin-left: 1rem;">
+                            <span>💻 Công nghệ Thông tin</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">user@portfolio:~$</span>
+                            <span class="neon-text pulse">_</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ==================== ABOUT SECTION ==================== -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">ABOUT_ME</h2>
+                <div class="section-divider"></div>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="cyber-card h-100">
+                            <h3 class="neon-text mb-3">
+                                <i class="fas fa-user-circle me-2"></i>Thông Tin Cá Nhân
+                            </h3>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">></span>
+                                <span>Họ và tên: <span class="neon-text">Nguyễn Tấn Phi</span></span>
+                            </div>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">></span>
+                                <span>Vị trí: <span style="color: var(--cyber-blue);">Data Analyst</span></span>
+                            </div>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">></span>
+                                <span>Trường: <span>ĐH Giao thông Vận tải</span></span>
+                            </div>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">></span>
+                                <span>Chuyên ngành: <span>Công nghệ Thông tin</span></span>
+                            </div>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">></span>
+                                <span>Focus: <span style="color: var(--neon-green);">Software Development</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="cyber-card h-100">
+                            <h3 class="neon-text mb-3">
+                                <i class="fas fa-lightbulb me-2"></i>Kỹ Năng Mềm
+                            </h3>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">✓</span>
+                                <span>Quản lý thời gian và deadline</span>
+                            </div>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">✓</span>
+                                <span>Kỹ năng giải quyết vấn đề</span>
+                            </div>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">✓</span>
+                                <span>Tư duy logic và phản biện</span>
+                            </div>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">✓</span>
+                                <span>Khả năng học hỏi nhanh</span>
+                            </div>
+                            <div class="terminal-line mb-2">
+                                <span class="terminal-prompt">✓</span>
+                                <span>Giao tiếp và làm việc nhóm tốt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="row mt-5 g-4">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="stat-box">
+                            <div class="stat-number counter" data-target="5">0</div>
+                            <div class="stat-label">Programming Languages</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="stat-box">
+                            <div class="stat-number counter" data-target="10">0</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="stat-box">
+                            <div class="stat-number counter" data-target="3">0</div>
+                            <div class="stat-label">Frameworks Mastered</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="stat-box">
+                            <div class="stat-number counter" data-target="2">0</div>
+                            <div class="stat-label">Database Systems</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ==================== SKILLS SECTION ==================== -->
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title">TECH_STACK</h2>
+                <div class="section-divider"></div>
+                
+                <div class="row g-4">
+                    <!-- Programming Languages -->
+                    <div class="col-lg-6">
+                        <div class="cyber-card">
+                            <h3 class="neon-text mb-4">
+                                <i class="fas fa-code me-2"></i>Programming Languages
+                            </h3>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Python</span>
+                                    <span>85%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="85%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Java</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="80%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>JavaScript</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="75%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>C++</span>
+                                    <span>70%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="70%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>C#</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Frameworks & Technologies -->
+                    <div class="col-lg-6">
+                        <div class="cyber-card">
+                            <h3 class="neon-text mb-4">
+                                <i class="fas fa-layer-group me-2"></i>Frameworks & Technologies
+                            </h3>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Spring Boot</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="80%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>React</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="75%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Angular</span>
+                                    <span>70%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="70%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item">
+                                <div class="skill-name">
+                                    <span>Vue.js</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" style="width: 0%" data-width="65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Database & DevOps -->
+                    <div class="col-lg-12">
+                        <div class="cyber-card">
+                            <div class="row">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <h3 class="neon-text mb-4">
+                                        <i class="fas fa-database me-2"></i>Database Systems
+                                    </h3>
+                                    <div class="skill-item">
+                                        <div class="skill-name">
+                                            <span>MySQL</span>
+                                            <span>85%</span>
+                                        </div>
+                                        <div class="skill-bar-container">
+                                            <div class="skill-bar" style="width: 0%" data-width="85%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <div class="skill-name">
+                                            <span>Firebase</span>
+                                            <span>75%</span>
+                                        </div>
+                                        <div class="skill-bar-container">
+                                            <div class="skill-bar" style="width: 0%" data-width="75%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h3 class="neon-text mb-4">
+                                        <i class="fas fa-server me-2"></i>System & DevOps
+                                    </h3>
+                                    <div class="skill-item">
+                                        <div class="skill-name">
+                                            <span>Linux</span>
+                                            <span>80%</span>
+                                        </div>
+                                        <div class="skill-bar-container">
+                                            <div class="skill-bar" style="width: 0%" data-width="80%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <div class="skill-name">
+                                            <span>Google Cloud</span>
+                                            <span>70%</span>
+                                        </div>
+                                        <div class="skill-bar-container">
+                                            <div class="skill-bar" style="width: 0%" data-width="70%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ==================== PROJECTS SECTION ==================== -->
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title">PROJECTS</h2>
+                <div class="section-divider"></div>
+                
+                <div class="row g-4">
+                    <!-- Project 1: E-commerce Website -->
+                    <div class="col-lg-6">
+                        <div class="project-card">
+                            <img src="/img/duan1.jpg" 
+                                 alt="E-commerce Website" class="project-image">
+                            <div class="project-body">
+                                <h3 class="project-title">E-Commerce Platform</h3>
+                                <p style="color: var(--dark-green); margin-bottom: 1rem;">
+                                    Hệ thống website bán hàng trực tuyến với đầy đủ tính năng giỏ hàng, thanh toán online, 
+                                    quản lý sản phẩm và dashboard quản trị viên.
+                                </p>
+                                <div class="mb-3">
+                                    <strong style="color: var(--cyber-blue);">Features:</strong>
+                                    <div class="terminal-line">› Giỏ hàng & Thanh toán</div>
+                                    <div class="terminal-line">› Quản lý sản phẩm</div>
+                                    <div class="terminal-line">› Dashboard Admin</div>
+                                    <div class="terminal-line">› Tìm kiếm & Lọc sản phẩm</div>
+                                </div>
+                                <div>
+                                    <span class="tech-badge">Java</span>
+                                    <span class="tech-badge">Spring Boot</span>
+                                    <span class="tech-badge">React</span>
+                                    <span class="tech-badge">MySQL</span>
+                                    <span class="tech-badge">Firebase</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2: Tour Booking System -->
+                    <div class="col-lg-6">
+                        <div class="project-card">
+                            <img src="/img/duan2.jpg" 
+                                 alt="Tour Booking" class="project-image">
+                            <div class="project-body">
+                                <h3 class="project-title">Travel Tour Booking System</h3>
+                                <p style="color: var(--dark-green); margin-bottom: 1rem;">
+                                    Website đặt vé tour du lịch online với tính năng tìm kiếm tour, đặt vé, 
+                                    thanh toán và quản lý booking cho khách hàng.
+                                </p>
+                                <div class="mb-3">
+                                    <strong style="color: var(--cyber-blue);">Features:</strong>
+                                    <div class="terminal-line">› Tìm kiếm & Đặt tour</div>
+                                    <div class="terminal-line">› Thanh toán trực tuyến</div>
+                                    <div class="terminal-line">› Quản lý booking</div>
+                                    <div class="terminal-line">› Review & Rating</div>
+                                </div>
+                                <div>
+                                    <span class="tech-badge">Python</span>
+                                    <span class="tech-badge">Vue.js</span>
+                                    <span class="tech-badge">MySQL</span>
+                                    <span class="tech-badge">Google Cloud</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 3: Data Analytics Dashboard -->
+                    <div class="col-lg-6">
+                        <div class="project-card">
+                            <img src="/img/duan3.jpg" 
+                                 alt="Analytics Dashboard" class="project-image">
+                            <div class="project-body">
+                                <h3 class="project-title">Business Analytics Dashboard</h3>
+                                <p style="color: var(--dark-green); margin-bottom: 1rem;">
+                                    Dashboard phân tích dữ liệu kinh doanh với biểu đồ tương tác, 
+                                    báo cáo real-time và khả năng export dữ liệu.
+                                </p>
+                                <div class="mb-3">
+                                    <strong style="color: var(--cyber-blue);">Features:</strong>
+                                    <div class="terminal-line">› Real-time Analytics</div>
+                                    <div class="terminal-line">› Interactive Charts</div>
+                                    <div class="terminal-line">› Data Visualization</div>
+                                    <div class="terminal-line">› Export Reports</div>
+                                </div>
+                                <div>
+                                    <span class="tech-badge">Python</span>
+                                    <span class="tech-badge">JavaScript</span>
+                                    <span class="tech-badge">Angular</span>
+                                    <span class="tech-badge">MySQL</span>
+                                    <span class="tech-badge">Firebase</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 4: Inventory Management System -->
+                    <div class="col-lg-6">
+                        <div class="project-card">
+                            <img src="/img/duan4.jpg" 
+                                 alt="Inventory System" class="project-image">
+                            <div class="project-body">
+                                <h3 class="project-title">Smart Inventory Management</h3>
+                                <p style="color: var(--dark-green); margin-bottom: 1rem;">
+                                    Hệ thống quản lý kho hàng thông minh với tính năng theo dõi tồn kho, 
+                                    nhập xuất hàng và dự báo nhu cầu.
+                                </p>
+                                <div class="mb-3">
+                                    <strong style="color: var(--cyber-blue);">Features:</strong>
+                                    <div class="terminal-line">› Theo dõi tồn kho</div>
+                                    <div class="terminal-line">› Quản lý nhập xuất</div>
+                                    <div class="terminal-line">› Dự báo nhu cầu</div>
+                                    <div class="terminal-line">› Báo cáo thống kê</div>
+                                </div>
+                                <div>
+                                    <span class="tech-badge">C#</span>
+                                    <span class="tech-badge">Java</span>
+                                    <span class="tech-badge">Spring Boot</span>
+                                    <span class="tech-badge">React</span>
+                                    <span class="tech-badge">MySQL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ==================== CONTACT SECTION ==================== -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">CONTACT_ME</h2>
+                <div class="section-divider"></div>
+                
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="contact-info">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-envelope contact-icon"></i>
+                                <div>
+                                    <h5 class="neon-text mb-1">Email</h5>
+                                    <a href="mailto:nguyentanphi18092005@gmail.com" 
+                                       style="color: var(--dark-green); text-decoration: none;">
+                                        nguyentanphi18092005@gmail.com
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="contact-info">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-phone contact-icon"></i>
+                                <div>
+                                    <h5 class="neon-text mb-1">Phone</h5>
+                                    <a href="tel:0394565723" 
+                                       style="color: var(--dark-green); text-decoration: none;">
+                                        0394 565 723
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="contact-info">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-graduation-cap contact-icon"></i>
+                                <div>
+                                    <h5 class="neon-text mb-1">Education</h5>
+                                    <p style="color: var(--dark-green); margin: 0;">
+                                        ĐH Giao thông Vận tải TP.HCM
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Media Links -->
+                <div class="row mt-5">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="cyber-card text-center">
+                            <h3 class="neon-text mb-4">
+                                <i class="fas fa-share-nodes me-2"></i>Connect With Me
+                            </h3>
+                            <div class="row g-3">
+                                <div class="col-md-3 col-6">
+                                    <a href="https://github.com/NguyenTanPhi2005" target="_blank" class="text-decoration-none">
+                                        <div class="contact-info h-100">
+                                            <i class="fab fa-github contact-icon mb-2" style="display: block;"></i>
+                                            <h6 class="neon-text">GitHub</h6>
+                                            <p style="color: var(--dark-green); font-size: 0.85rem; margin: 0;">@NguyenTanPhi2005</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <a href="https://www.facebook.com/share/1Cw8opYAm7/?mibextid=wwXIfr" target="_blank" class="text-decoration-none">
+                                        <div class="contact-info h-100">
+                                            <i class="fab fa-facebook contact-icon mb-2" style="display: block;"></i>
+                                            <h6 class="neon-text">Facebook</h6>
+                                            <p style="color: var(--dark-green); font-size: 0.85rem; margin: 0;">Nguyễn Tấn Phi</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <a href="https://instagram.com/phh_iiii" target="_blank" class="text-decoration-none">
+                                        <div class="contact-info h-100">
+                                            <i class="fab fa-instagram contact-icon mb-2" style="display: block;"></i>
+                                            <h6 class="neon-text">Instagram</h6>
+                                            <p style="color: var(--dark-green); font-size: 0.85rem; margin: 0;">@phh_iiii</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <a href="mailto:nguyentanphi18092005@gmail.com" class="text-decoration-none">
+                                        <div class="contact-info h-100">
+                                            <i class="fas fa-envelope contact-icon mb-2" style="display: block;"></i>
+                                            <h6 class="neon-text">Email</h6>
+                                            <p style="color: var(--dark-green); font-size: 0.85rem; margin: 0;">Contact Me</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Terminal Contact Form -->
+                <div class="row mt-4">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="terminal-window">
+                            <div class="terminal-header">
+                                <div class="terminal-button red"></div>
+                                <div class="terminal-button yellow"></div>
+                                <div class="terminal-button green"></div>
+                            </div>
+                            <div class="terminal-content">
+                                <div class="terminal-line">
+                                    <span class="terminal-prompt">root@contact:~#</span>
+                                    <span class="neon-text">echo "Let's work together!"</span>
+                                </div>
+                                <div class="terminal-line" style="margin-left: 1rem;">
+                                    <span style="color: var(--cyber-blue);">
+                                        Tôi luôn sẵn sàng cho các cơ hội mới và dự án thú vị.
+                                    </span>
+                                </div>
+                                <div class="terminal-line" style="margin-left: 1rem;">
+                                    <span style="color: var(--cyber-blue);">
+                                        Hãy liên hệ với tôi qua email hoặc số điện thoại phía trên!
+                                    </span>
+                                </div>
+                                <div class="terminal-line mt-3">
+                                    <span class="terminal-prompt">root@contact:~#</span>
+                                    <span class="neon-text pulse">_</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ==================== FOOTER ==================== -->
+        <footer>
+            <div class="container">
+                <div class="mb-4">
+                    <a href="https://github.com/NguyenTanPhi2005" target="_blank" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.facebook.com/share/1Cw8opYAm7/?mibextid=wwXIfr" target="_blank" class="social-link">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://instagram.com/phh_iiii" target="_blank" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="mailto:nguyentanphi18092005@gmail.com" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+                
+                <div style="font-family: 'Orbitron', monospace; margin-bottom: 1rem;">
+                    <span class="neon-text">NTP_DEV</span>
+                </div>
+                
+                <p style="color: var(--dark-green); margin-bottom: 0.5rem;">
+                    © 2025 Nguyễn Tấn Phi. Built with HTML, CSS & Bootstrap
+                </p>
+                <p style="color: var(--dark-green); font-size: 0.9rem;">
+                    Bài giữa kỳ - ĐH GTVT TP.HCM
+                </p>
+            </div>
+        </footer>
+        
+    </div>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // ==================== MATRIX RAIN EFFECT ====================
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        const matrixArray = matrix.split("");
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 35);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // ==================== SMOOTH SCROLL ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // ==================== SCROLL TO TOP BUTTON ====================
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // ==================== COUNTER ANIMATION ====================
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+        
+        const countUp = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText;
+            const increment = target / speed;
+            
+            if (count < target) {
+                counter.innerText = Math.ceil(count + increment);
+                setTimeout(() => countUp(counter), 1);
+            } else {
+                counter.innerText = target;
+            }
+        };
+        
+        const observerOptions = {
+            threshold: 0.5
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    counters.forEach(counter => {
+                        counter.innerText = '0';
+                        countUp(counter);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        const statsSection = document.querySelector('.stat-box').parentElement.parentElement;
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+        
+        // ==================== SKILL BARS ANIMATION ====================
+        const skillBars = document.querySelectorAll('.skill-bar');
+        
+        const animateSkillBars = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.skill-bar');
+                    bars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }
+            });
+        };
+        
+        const skillObserver = new IntersectionObserver(animateSkillBars, {
+            threshold: 0.5
+        });
+        
+        document.querySelectorAll('.cyber-card').forEach(card => {
+            if (card.querySelector('.skill-bar')) {
+                skillObserver.observe(card);
+            }
+        });
+        
+        // ==================== NAVBAR ACTIVE STATE ====================
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // ==================== GLITCH EFFECT ON HOVER ====================
+        const glitchElements = document.querySelectorAll('.glitch');
+        glitchElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.animation = 'glitch 0.3s linear 2';
+            });
+            element.addEventListener('animationend', () => {
+                element.style.animation = '';
+            });
+        });
+        
+        // ==================== INITIALIZE ====================
+        console.log('%c> System initialized successfully', 'color: #00ff41; font-size: 14px; font-family: monospace;');
+        console.log('%c> Welcome to NTP_DEV Portfolio', 'color: #00d9ff; font-size: 14px; font-family: monospace;');
+        console.log('%c> Type "help" for available commands', 'color: #00ff41; font-size: 14px; font-family: monospace;');
+    </script>
+</body>
+</html>
